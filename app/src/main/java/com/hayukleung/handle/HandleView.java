@@ -22,7 +22,6 @@ import android.view.View;
 public class HandleView extends View {
 
   private Paint mPaintForCircle;
-  private float[] mCenter = new float[2];
   private HandleReaction mHandleReaction;
 
   public HandleView(Context context) {
@@ -87,8 +86,6 @@ public class HandleView extends View {
     int radiusInner = getWidth() / 5;
     float cx = getWidth() / 2;
     float cy = getHeight() / 2;
-    mCenter[0] = cx;
-    mCenter[1] = cy;
 
     if (null == mPaintForCircle) {
       mPaintForCircle = new Paint();
@@ -110,10 +107,10 @@ public class HandleView extends View {
     float[] touchPosition = mHandleReaction.getTouchPosition();
 
     double ratio = (radiusOuter - radiusInner) / Math.sqrt(
-        Math.pow(touchPosition[0] - mCenter[0] - getLeft(), 2) + Math.pow(
-            touchPosition[1] - mCenter[1] - getTop(), 2));
-    float cx2 = (float) (ratio * (touchPosition[0] - mCenter[0] - getLeft()) + mCenter[0]);
-    float cy2 = (float) (ratio * (touchPosition[1] - mCenter[1] - getTop()) + mCenter[1]);
+        Math.pow(touchPosition[0] - cx - getLeft(), 2) + Math.pow(touchPosition[1] - cy - getTop(),
+            2));
+    float cx2 = (float) (ratio * (touchPosition[0] - cx - getLeft()) + cx);
+    float cy2 = (float) (ratio * (touchPosition[1] - cy - getTop()) + cy);
 
     mPaintForCircle.setColor(Color.argb(0xff, 0x11, 0x11, 0x11));
     canvas.drawCircle(cx2, cy2, radiusInner, mPaintForCircle);
